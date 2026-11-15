@@ -1,9 +1,10 @@
 name: Android
 
-# Builds the experimental arm64 APK for Android packaging/release workflow changes, on CI's schedule and on
-# demand, so the Android target keeps compiling. The APK is signed with a throwaway key per run;
-# installing a later build means uninstalling first.
+# Builds Amythest's experimental arm64 Android APK on pushes, PRs, schedule and manual dispatch.
+# Each APK is signed with a throwaway key per run; uninstall before installing a later build.
 on:
+  push:
+    branches: [dev]
   pull_request:
     paths:
       - packaging/android/**
@@ -61,7 +62,7 @@ jobs:
         run: bash packaging/android/build-apk.sh
       - uses: actions/upload-artifact@v7
         with:
-          name: cinnabar-android-arm64
+          name: amythest-android-arm64
           path: target/android/*-arm64-v8a.apk
           if-no-files-found: error
           retention-days: 14
